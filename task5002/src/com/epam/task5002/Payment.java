@@ -57,12 +57,14 @@ public class Payment {
             if (name != null && price >= 0) {
                 this.name = name;
                 this.price = MoneyConverter.getKopecks(price);
-            } else throw new IllegalArgumentException();
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
 
-        public void setPrice(double newPrice){
-            if(newPrice>0){
-                this.price= MoneyConverter.getKopecks(newPrice);
+        public void setPrice(double newPrice) {
+            if (newPrice > 0) {
+                this.price = MoneyConverter.getKopecks(newPrice);
             }
         }
 
