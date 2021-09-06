@@ -6,6 +6,6 @@ public class Main {
         payment.addProduct(new Payment.Product("Jeans for men", 124.99));
         payment.addProduct(new Payment.Product("Dress for girl", 750.11));
         payment.addProduct(new Payment.Product("Winter coat for woman", 1111.01));
-        System.out.println(payment);
+        System.out.println(payment.string());
     }
 }
