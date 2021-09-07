@@ -4,17 +4,25 @@ package com.epam.task5002;
 //Создать класс Payment с внутренним классом, с помощью объектов которого можно сформировать покупку из
 //нескольких товаров.
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Payment {
-    private final int number;
-    private final List<Product> products;
+public class Payment implements Serializable {
+    private int number;
+    private List<Product> products;
+
+    public Payment(){
+        number = NumbersGeneratorUtil.nextNumber();
+        this.products = new ArrayList<>();
+    }
 
     public Payment(List<Product> products) {
         number = NumbersGeneratorUtil.nextNumber();
-        this.products = products;
+        if(products!=null) {
+            this.products = products;
+        }
     }
 
     public Payment(Product product) {
@@ -23,30 +31,20 @@ public class Payment {
         products.add(product);
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public int getNumber() {
+        return number;
     }
 
-    public double getTotal() {
-        long total = 0;
-        for (Product product : products) {
-            total += product.price;
-        }
-        return MoneyConverter.getRubles(total);
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public String string() {
-        StringBuilder sb = new StringBuilder().append("Payment №").append(number).append("\n")
-                .append("------------------------------------------------------------------------------\n")
-                .append("Product                                                 |        Price\n")
-                .append("------------------------------------------------------------------------------\n");
-        for (Product product : products) {
-            sb.append(product.string()).append("\n");
-        }
-        sb.append("------------------------------------------------------------------------------\n")
-                .append("Total:                                                   ")
-                .append(String.format("%13.2f", getTotal())).append("\n");
-        return sb.toString();
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
@@ -85,7 +83,8 @@ public class Payment {
                 this.name = name;
                 this.price = MoneyConverter.getKopecks(price);
             } else {
-                throw new IllegalArgumentException();
+                this.name="";
+                this.price=MoneyConverter.getKopecks(0.0);
             }
         }
 
@@ -109,11 +108,6 @@ public class Payment {
 
         public long getPrice() {
             return price;
-        }
-
-        public String string() {
-            return String.format("%-56s", name) + '|' +
-                    String.format("%13.2f", MoneyConverter.getRubles(price));
         }
 
         @Override
