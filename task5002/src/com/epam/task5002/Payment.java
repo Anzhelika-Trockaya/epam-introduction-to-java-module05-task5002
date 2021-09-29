@@ -13,20 +13,23 @@ public class Payment implements Serializable {
     private int number;
     private List<Product> products;
 
-    public Payment(){
-        number = NumbersGeneratorUtil.nextNumber();
+    public Payment() {
+        number = 0;
         this.products = new ArrayList<>();
     }
 
-    public Payment(List<Product> products) {
-        number = NumbersGeneratorUtil.nextNumber();
-        if(products!=null) {
-            this.products = products;
-        }
+    public Payment(int number) {
+        this.number = number;
+        products = new ArrayList<>();
     }
 
-    public Payment(Product product) {
-        number = NumbersGeneratorUtil.nextNumber();
+    public Payment(int number, List<Product> products) {
+        this.number = number;
+        this.products = products;
+    }
+
+    public Payment(int number, Product product) {
+        this.number = number;
         products = new ArrayList<>();
         products.add(product);
     }
@@ -63,7 +66,7 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        return "Payment{" +
+        return getClass().getSimpleName() + "{" +
                 "number=" + number +
                 ", products=" + products +
                 '}';
@@ -75,35 +78,24 @@ public class Payment implements Serializable {
 
         public Product() {
             this.name = "";
-            this.price = MoneyConverter.getKopecks(0.0);
+            this.price = 0;
         }
 
-        public Product(String name, double price) {
-            if (name != null && price >= 0) {
-                this.name = name;
-                this.price = MoneyConverter.getKopecks(price);
-            } else {
-                this.name="";
-                this.price=MoneyConverter.getKopecks(0.0);
-            }
+        public Product(String name, long price) {
+            this.name = name;
+            this.price = price;
         }
 
         public void setName(String name) {
-            if (name != null) {
-                this.name = name;
-            } else {
-                this.name = "";
-            }
+            this.name = name;
         }
 
         public String getName() {
             return name;
         }
 
-        public void setPrice(double newPrice) {
-            if (newPrice > 0) {
-                this.price = MoneyConverter.getKopecks(newPrice);
-            }
+        public void setPrice(long price) {
+            this.price = price;
         }
 
         public long getPrice() {
@@ -126,7 +118,7 @@ public class Payment implements Serializable {
 
         @Override
         public String toString() {
-            return "Product{" +
+            return getClass().getSimpleName() + "{" +
                     "name='" + name + '\'' +
                     ", price=" + price +
                     '}';

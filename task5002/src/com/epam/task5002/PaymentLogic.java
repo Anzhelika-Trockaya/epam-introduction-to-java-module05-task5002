@@ -1,6 +1,28 @@
 package com.epam.task5002;
 
+import java.util.List;
+
 public class PaymentLogic {
+    public static Payment createNewPayment() {
+        return new Payment(NumbersGeneratorUtil.nextNumber());
+    }
+
+    public static Payment createNewPayment(Payment.Product product) {
+        if (product != null) {
+            return new Payment(NumbersGeneratorUtil.nextNumber(), product);
+        } else {
+            return new Payment(NumbersGeneratorUtil.nextNumber());
+        }
+    }
+
+    public static Payment createNewPayment(List<Payment.Product> products) {
+        if (products != null) {
+            return new Payment(NumbersGeneratorUtil.nextNumber(), products);
+        } else {
+            return new Payment(NumbersGeneratorUtil.nextNumber());
+        }
+    }
+
     public static double getTotal(Payment payment) {
         long total = 0;
         for (Payment.Product product : payment.getProducts()) {
@@ -10,27 +32,8 @@ public class PaymentLogic {
     }
 
     public static void addProduct(Payment payment, Payment.Product product) {
-        if(product!=null) {
+        if (product != null) {
             payment.getProducts().add(product);
         }
-    }
-
-    public static String paymentToString(Payment payment) {
-        StringBuilder sb = new StringBuilder().append("Payment №").append(payment.getNumber()).append("\n")
-                .append("------------------------------------------------------------------------------\n")
-                .append("Product                                                 |        Price\n")
-                .append("------------------------------------------------------------------------------\n");
-        for (Payment.Product product : payment.getProducts()) {
-            sb.append(productToString(product)).append("\n");
-        }
-        sb.append("------------------------------------------------------------------------------\n")
-                .append("Total:                                                   ")
-                .append(String.format("%13.2f", getTotal(payment))).append("\n");
-        return sb.toString();
-    }
-
-    public static String productToString(Payment.Product product) {
-        return String.format("%-56s", product.getName()) + '|' +
-                String.format("%13.2f", MoneyConverter.getRubles(product.getPrice()));
     }
 }
